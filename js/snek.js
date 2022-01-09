@@ -46,8 +46,10 @@ const setupPlayfield = () => {
     let snake = new Snake(gridCenter, gridCenter);
 
     mainLoop = window.setInterval(() => {
-        snake.move();
-    }, 1000);
+        if(!snake.move()){
+            window.clearInterval(mainLoop);
+        };
+    }, 200);
 
     document.addEventListener('keydown', (event) => {
         switch(event.key){
@@ -79,8 +81,7 @@ const unsetGridCell = (cls, x, y) => {
 
 class Snake {
     constructor(x, y){
-        this.head = {x, y};
-        this.body = [this.head, { x: x, y : y+1 }]
+        this.body = [{x, y}, { x: x, y : y+1 }]
 
         this.direction = 'up';
         
@@ -119,6 +120,26 @@ class Snake {
         }
 
         ({x, y} = this.body[0]);
+        if(this.checkCollision(x, y)){     // check if next move would be a collision
+            return false;
+        };
         setGridCell('snek', x, y);
+
+        return true;
+    }
+
+    checkCollision(x, y) {
+
+        if(x < 0 || y < 0 || x >= GRID_SIZE || y >= GRID_SIZE){
+            return true;
+        }
+
+        for(let part of this.body.slice(1)){
+            if(x == part.x && y == part.y){
+                return true;
+            }
+        }
+
+        return false;
     }
 }
