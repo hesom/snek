@@ -1,5 +1,5 @@
 
-const GRID_SIZE = 32;
+const GRID_SIZE = 16;
 
 let mainLoop = null;
 
@@ -76,11 +76,18 @@ const unsetGridCell = (cls, x, y) => {
 }
 
 const spawnFood = () => {
-    let r = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
-    let row = Math.floor(r / GRID_SIZE);
-    let col = r % GRID_SIZE;
+    let cellFound = false;
 
-    setGridCell('food', row, col);
+    while(!cellFound){
+        let r = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
+        let row = Math.floor(r / GRID_SIZE);
+        let col = r % GRID_SIZE;
+    
+        if(!document.getElementById(`cell-${col}-${row}`).classList.contains('snek')){
+            setGridCell('food', row, col);
+            cellFound = true;
+        }
+    }
 }
 
 class Snake {
