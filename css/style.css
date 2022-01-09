@@ -1,3 +1,8 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #222;
+    color: #aaa;
+}
 
 main {
     width: fit-content;
@@ -8,11 +13,12 @@ main {
     display: flex;
     flex-direction: row;
     padding: 1em;
+    font-size: 1.5rem;
 }
 
 .navbar > a {
-    color: black;
-    border: 1px solid #333;
+    color: #aaa;
+    border: 1px solid #aaa;
     padding: 0.75em;
     text-decoration: none;
 }
@@ -22,8 +28,8 @@ main {
 }
 
 .grid > div {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     margin: 0;
     border: 1px solid #aaa;
@@ -34,7 +40,7 @@ main {
 }
 
 .snek {
-    background-color: #333;
+    background-color: #ccc;
 }
 
 .playfield-footer {
@@ -43,7 +49,6 @@ main {
 }
 
 #score {
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 3rem;
 }
 
