@@ -106,13 +106,7 @@ class Snake {
     }
 
     move() {
-        let {x, y} = this.body[this.body.length - 1];
-        
-        unsetGridCell('snek', x, y);
-
-        this.body.splice(this.body.length - 1);
-        
-        ({x, y} = this.body[0]);
+        let {x, y} = this.body[0];
         switch(this.direction){
             case 'up':
                 this.body.unshift({x: x, y: y-1});
@@ -135,6 +129,12 @@ class Snake {
             return false;
         };
         setGridCell('snek', x, y);
+
+        ({x, y} = this.body[this.body.length - 1]);
+        
+        unsetGridCell('snek', x, y);
+
+        this.body.splice(this.body.length - 1);
 
         return true;
     }
