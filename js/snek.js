@@ -35,11 +35,7 @@ const setupPlayfield = () => {
     playfield.appendChild(grid);
 
     for(let i = 0; i < 5; i++){
-        let r = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
-        let row = Math.floor(r / GRID_SIZE);
-        let col = r % GRID_SIZE;
-
-        setGridCell('food', row, col);
+        spawnFood();
     }
 
     let gridCenter = Math.floor(GRID_SIZE / 2);
@@ -77,6 +73,14 @@ const setGridCell = (cls, x, y) => {
 
 const unsetGridCell = (cls, x, y) => {
     document.getElementById(`cell-${y}-${x}`).classList.remove(cls);
+}
+
+const spawnFood = () => {
+    let r = Math.floor(Math.random() * GRID_SIZE * GRID_SIZE);
+    let row = Math.floor(r / GRID_SIZE);
+    let col = r % GRID_SIZE;
+
+    setGridCell('food', row, col);
 }
 
 class Snake {
@@ -140,6 +144,21 @@ class Snake {
             }
         }
 
+        // check if food is on this grid cell
+        let cell = document.getElementById(`cell-${y}-${x}`);
+        if(cell.classList.contains('food')){
+            this.eat();
+            cell.classList.remove('food');
+
+            // spawn new food
+            spawnFood();
+        }
+
         return false;
+    }
+
+    eat() {
+        // hack: just duplicate the last body element
+        this.body = [...this.body, this.body[this.body.length - 1]];
     }
 }
