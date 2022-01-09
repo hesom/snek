@@ -103,6 +103,8 @@ class Snake {
             let cell = document.getElementById(`cell-${y}-${x}`);
             cell.classList.add('snek');
         }
+
+        document.getElementById('score').textContent = this.body.length;
     }
 
     move() {
@@ -167,5 +169,6 @@ class Snake {
     eat() {
         // hack: just duplicate the last body element
         this.body = [...this.body, this.body[this.body.length - 1]];
+        document.getElementById('score').textContent = this.body.length - 1;
     }
 }
