@@ -17,6 +17,7 @@ const setupPlayfield = () => {
 
     window.clearInterval(mainLoop);
     let playfield = document.getElementById("playfield");
+    playfield.classList.remove('outline');
 
     playfield.textContent = '';
 
@@ -44,6 +45,7 @@ const setupPlayfield = () => {
     mainLoop = window.setInterval(() => {
         if(!snake.move()){
             window.clearInterval(mainLoop);
+            playfield.classList.add('outline');
         };
     }, 200);
 
