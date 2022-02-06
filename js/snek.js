@@ -2,6 +2,7 @@
 const GRID_SIZE = 16;
 
 let mainLoop = null;
+let paused = false;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -9,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.onclick = () => {
         setupPlayfield();
     };
+    let pauseButton = document.getElementById('pause');
+    pauseButton.onclick = () => {
+        paused = !paused;
+    }
 
     setupPlayfield();
 });
@@ -43,7 +48,7 @@ const setupPlayfield = () => {
     let snake = new Snake(gridCenter, gridCenter);
 
     mainLoop = window.setInterval(() => {
-        if(!snake.move()){
+        if(!paused && !snake.move()){
             window.clearInterval(mainLoop);
             playfield.classList.add('outline');
         };
