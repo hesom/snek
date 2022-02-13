@@ -1,14 +1,18 @@
 
 const GRID_SIZE = 16;
+const gridCenter = Math.floor(GRID_SIZE / 2);
 
-let mainLoop = null;
 let paused = false;
+let gameover = false;
 
 document.addEventListener("DOMContentLoaded", () => {
 
     let resetButton = document.getElementById('reset');
     resetButton.onclick = () => {
-        setupPlayfield();
+        if(gameover){
+            gameover = false;
+            setupPlayfield();
+        }
     };
     let pauseButton = document.getElementById('pause');
     pauseButton.onclick = () => {
@@ -20,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const setupPlayfield = () => {
 
-    window.clearInterval(mainLoop);
     let playfield = document.getElementById("playfield");
     playfield.classList.remove('outline');
 
@@ -44,15 +47,7 @@ const setupPlayfield = () => {
         spawnFood();
     }
 
-    let gridCenter = Math.floor(GRID_SIZE / 2);
     let snake = new Snake(gridCenter, gridCenter);
-
-    mainLoop = window.setInterval(() => {
-        if(!paused && !snake.move()){
-            window.clearInterval(mainLoop);
-            playfield.classList.add('outline');
-        };
-    }, 200);
 
     document.addEventListener('keydown', (event) => {
         switch(event.key){
@@ -72,6 +67,23 @@ const setupPlayfield = () => {
                 break;
         }
     })
+
+    function gameloop(){
+        if(paused){
+            setTimeout(() => {
+                gameloop();
+            }, 10);
+        } else if(snake.move()){
+            setTimeout(() => {
+                gameloop();
+            }, Math.max(200 - 10*Math.floor(snake.length()/5), 50));
+        }else{
+            gameover = true;
+            playfield.classList.add('outline');
+        }
+    }
+    gameloop();
+
 }
 
 const setGridCell = (cls, x, y) => {
@@ -177,5 +189,9 @@ class Snake {
         // hack: just duplicate the last body element
         this.body = [...this.body, this.body[this.body.length - 1]];
         document.getElementById('score').textContent = this.body.length - 1;
+    }
+
+    length() {
+        return this.body.length;
     }
 }
